@@ -20,7 +20,6 @@ DB.create_table :transactions do
   foreign_key :from_account_id, :accounts, null: false
   foreign_key :to_account_id, :accounts, null: false
   BigDecimal :amount_in_cents, null: false
-  String :status, default: 'queued', null: false
 end
 
 require_relative "seed"
