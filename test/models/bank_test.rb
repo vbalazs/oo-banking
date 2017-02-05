@@ -1,9 +1,9 @@
 require "test_helper"
 
 module Models
-  class BankTest < Minitest::Test
+  class BankTest < SequelTestCase
     def test_initialization
-      bank = Bank.new(name: "Alpha")
+      bank = Bank.create(name: "Alpha")
       assert_equal "Alpha", bank.name
     end
   end

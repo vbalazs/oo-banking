@@ -1,9 +1,5 @@
 module Models
-  class Bank
-    attr_reader :name
-
-    def initialize(args = {})
-      @name = args[:name]
-    end
+  class Bank < Sequel::Model
+    one_to_many :accounts
   end
 end

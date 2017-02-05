@@ -1,11 +1,6 @@
 module Models
-  class Transaction
-    attr_reader :from_account, :to_account, :amount_in_cents
-
-    def initialize(args)
-      @from_account = args[:from_account]
-      @to_account = args[:to_account]
-      @amount_in_cents = args[:amount_in_cents]
-    end
+  class Transaction < Sequel::Model
+    many_to_one :from_account, class: :"Models::Account"
+    many_to_one :to_account, class: :"Models::Account"
   end
 end
