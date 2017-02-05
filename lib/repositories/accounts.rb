@@ -1,6 +1,5 @@
 module Repositories
   class Accounts
-
     def create(args)
       Models::Account.create(args)
     end

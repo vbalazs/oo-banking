@@ -24,7 +24,7 @@ module Database
         foreign_key :from_account_id, :accounts, null: false
         foreign_key :to_account_id, :accounts, null: false
         BigDecimal :amount_in_cents, null: false
-        DateTime :created_at, null: false, default: Sequel.function(:datetime, 'now')
+        DateTime :created_at, null: false, default: Sequel.function(:datetime, "now")
       end
     end
   end

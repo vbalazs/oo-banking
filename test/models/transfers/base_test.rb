@@ -2,11 +2,13 @@ require "test_helper"
 
 module Models
   module Transfers
+    # rubocop:disable Style/SingleLineMethods
     class DummyTransfer < Base
       def commission; 5; end
       def limit; 1000; end
       def external_failure?; false; end
     end
+    # rubocop:enable Style/SingleLineMethods
 
     class BaseTest < SequelTestCase
       def setup
@@ -15,20 +17,20 @@ module Models
 
       def test_factory_method_same_bank
         bank = Bank.create(name: "X")
-        account_1 = @accounts_repository.create(name: "A", bank: bank)
-        account_2 = @accounts_repository.create(name: "B", bank: bank)
-        transaction = Transaction.new(from_account: account_1, to_account: account_2)
+        account1 = @accounts_repository.create(name: "A", bank: bank)
+        account2 = @accounts_repository.create(name: "B", bank: bank)
+        transaction = Transaction.new(from_account: account1, to_account: account2)
         object = Base.create_for(transaction)
 
         assert_kind_of IntraBank, object
       end
 
       def test_factory_method_different_bank
-        bank_1 = Bank.create(name: "X")
-        bank_2 = Bank.create(name: "Y")
-        account_1 = @accounts_repository.create(name: "A", bank: bank_1)
-        account_2 = @accounts_repository.create(name: "B", bank: bank_2)
-        transaction = Transaction.new(from_account: account_1, to_account: account_2)
+        bank1 = Bank.create(name: "X")
+        bank2 = Bank.create(name: "Y")
+        account1 = @accounts_repository.create(name: "A", bank: bank1)
+        account2 = @accounts_repository.create(name: "B", bank: bank2)
+        transaction = Transaction.new(from_account: account1, to_account: account2)
         object = Base.create_for(transaction)
 
         assert_kind_of InterBank, object

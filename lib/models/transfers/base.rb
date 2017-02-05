@@ -17,10 +17,14 @@ module Models
       end
 
       def fulfill
-        raise AmountOverLimit,
-          "#{amount} over transfer limit: #{limit}"  if over_limit?
-        raise ExternalFailure,
-          "External (random) failure happened" if external_failure?
+        if over_limit?
+          raise AmountOverLimit,
+            "#{amount} over transfer limit: #{limit}"
+        end
+        if external_failure?
+          raise ExternalFailure,
+            "External (random) failure happened"
+        end
 
         repository.transfer(transaction: transaction, commission: commission)
       end

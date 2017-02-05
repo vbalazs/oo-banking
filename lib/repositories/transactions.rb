@@ -31,12 +31,14 @@ module Repositories
 
     attr_reader :accounts_repository
 
+    # rubocop:disable Style/GuardClause
     def check_for_balance!(account, subtraction)
       if account.balance_in_cents < subtraction
         raise InsufficientAccountBalance,
           "Balance #{account.balance_in_cents} is not enough for #{subtraction}"
       end
     end
+    # rubocop:enable Style/GuardClause
   end
 
   class InsufficientAccountBalance < StandardError; end

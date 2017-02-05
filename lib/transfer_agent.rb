@@ -1,10 +1,9 @@
-require 'logger'
+require "logger"
 
 class TransferAgent
   attr_reader :logger, :from_account, :to_account, :amount_in_cents
 
   def initialize(from_account:, to_account:, amount_in_cents:, logger: Logger.new(STDOUT))
-
     @logger = logger
     @from_account = from_account
     @to_account = to_account
@@ -30,7 +29,7 @@ class TransferAgent
     begin
       transfer_object(transaction).fulfill
     rescue Models::Transfers::ExternalFailure
-      n +=1
+      n += 1
       logger.warn "Transfer failed, retrying... ##{n}"
       retry if n < 10
       logger.error "Transfer failed, gave up"
@@ -43,7 +42,7 @@ class TransferAgent
     q, m = amount.divmod(limit)
     logger.info "Transfer is over limit, breaking it up: #{limit} * #{q} + #{m}"
 
-    transactions = q.times.map { transaction(limit) }
+    transactions = Array.new(q) { transaction(limit) }
     transactions.push(transaction(m)) if m > 0
 
     transactions
