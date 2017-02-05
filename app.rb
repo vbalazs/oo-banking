@@ -15,16 +15,14 @@ class App
   end
 
   def run
-    logger.info "Initial status: Jim: #{(@jim.balance_in_cents / 100).to_s('F')} €;
-      Emma: #{(@emma.balance_in_cents / 100).to_s('F')} €"
+    logger.info "Initial status: Jim: #{@jim.formatted_balance}; Emma: #{@emma.formatted_balance}"
 
     agent = TransferAgent.new(from_account: @jim, to_account: @emma, amount_in_cents: 2_000_000,
       logger: logger)
 
     agent.execute
 
-    logger.info "After transaction: Jim: #{(@jim.refresh.balance_in_cents / 100).to_s('F')} €;
-      Emma: #{(@emma.refresh.balance_in_cents / 100).to_s('F')} €"
+    logger.info "After transaction: Jim: #{@jim.refresh.formatted_balance}; Emma: #{@emma.refresh.formatted_balance}"
   end
 end
 
