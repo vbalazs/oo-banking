@@ -6,7 +6,7 @@ module Models
       end
 
       def limit
-        0
+        BigDecimal::INFINITY
       end
 
       def external_failure?
