@@ -12,7 +12,9 @@ $ bundle install
 
 ## Running the app
 
-
+```
+$ bundle exec ruby app.rb
+```
 
 ## Testing
 
