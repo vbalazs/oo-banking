@@ -3,18 +3,30 @@ module Models
     class Base
       attr_reader :transaction, :repository
 
-      def initialize(transaction: , repository: )
+      def self.create_for(transaction, repository: Repositories::Transactions.new)
+        if transaction.from_account.bank == transaction.to_account.bank
+          IntraBank.new(transaction, repository: repository)
+        else
+          InterBank.new(transaction, repository: repository)
+        end
+      end
+
+      def initialize(transaction, repository: Repositories::Transactions.new)
         @transaction = transaction
         @repository = repository
       end
 
-      def transfer
+      def fulfill
         raise AmountOverLimit,
-          "#{amount} over transfer limit: #{limit}"  if amount > limit
+          "#{amount} over transfer limit: #{limit}"  if over_limit?
         raise ExternalFailure,
           "External (random) failure happened" if external_failure?
 
         repository.transfer(transaction: transaction, commission: commission)
+      end
+
+      def over_limit?
+        amount > limit
       end
 
       protected
