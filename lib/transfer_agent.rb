@@ -12,8 +12,7 @@ class TransferAgent
   end
 
   def execute
-    logger.info "Transfer with agent: #{amount_in_cents} from #{from_account.name} \
-      to #{to_account.name}"
+    logger.info "Transfer with agent: #{amount_in_cents} from #{from_account.name} to #{to_account.name}"
     transferer = transfer_object(transaction(amount_in_cents))
     queue = []
 
@@ -42,9 +41,12 @@ class TransferAgent
 
   def subtransactions(amount, limit)
     q, m = amount.divmod(limit)
-    logger.info "Transfer is over limit, breaking it up: #{limit}*#{q}+#{m}"
+    logger.info "Transfer is over limit, breaking it up: #{limit} * #{q} + #{m}"
 
-    q.times.map { transaction(limit) }.push(transaction(m))
+    transactions = q.times.map { transaction(limit) }
+    transactions.push(transaction(m)) if m > 0
+
+    transactions
   end
 
   def transfer_object(transaction)

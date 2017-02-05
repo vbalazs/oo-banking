@@ -30,6 +30,16 @@ module Repositories
       assert_raises(NegativeTransferAmount) { @repo.add(transaction) }
     end
 
+    def test_transfer_ignores_zero_amount
+      account_1 = @accounts_repo.create(name: "Account 1",
+        bank: @bank, balance_in_cents: 45)
+      transaction = Models::Transaction.new(from_account: account_1,
+        to_account: nil, amount_in_cents: 0)
+
+      assert_nil @repo.transfer(transaction: transaction)
+      assert_equal 0, Models::Transaction.count
+    end
+
     def test_transfer_fails_if_balance_is_not_enough
       account_1 = @accounts_repo.create(name: "Account 1",
         bank: @bank, balance_in_cents: 45)

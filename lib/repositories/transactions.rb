@@ -5,6 +5,8 @@ module Repositories
     end
 
     def transfer(transaction:, commission: 0)
+      return if transaction.amount_in_cents <= 0
+
       total_cost = transaction.amount_in_cents + commission
       check_for_balance!(transaction.from_account, total_cost)
 
