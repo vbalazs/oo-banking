@@ -1,6 +1,6 @@
 module Models
   module Transfers
-    class InterBank
+    class InterBank < Base
       def commission
         500
       end

@@ -2,7 +2,7 @@ require "test_helper"
 
 module Models
   module Transfers
-    class InterBankTest
+    class InterBankTest < Minitest::Test
       def test_initialization
         transfer = InterBank.new(transaction: 1, repository: 2)
         assert_equal 1, transfer.transaction

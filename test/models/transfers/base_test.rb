@@ -29,17 +29,14 @@ module Models
       end
 
       def test_invokes_repository_transfer
-        transaction = Transaction.new(from_account: 1, to_account: 2, amount_in_cents: 3)
+        transaction = Transaction.new(amount_in_cents: 3)
         repository = Minitest::Mock.new
         obj = DummyTransfer.new(transaction: transaction, repository: repository)
 
-        repository.expect(:transfer,
-          {
-            from_account: 1,
-            to_account: 2,
-            amount_in_cents: 3,
-            commission: 5
-          })
+        repository.expect(:transfer, true, [transaction: transaction, commission: 5])
+
+        obj.transfer
+        repository.verify
       end
     end
   end

@@ -14,7 +14,7 @@ module Models
         raise ExternalFailure,
           "External (random) failure happened" if external_failure?
 
-        repository.transfer(transaction, commission: commission)
+        repository.transfer(transaction: transaction, commission: commission)
       end
 
       protected

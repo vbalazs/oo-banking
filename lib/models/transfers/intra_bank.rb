@@ -1,6 +1,6 @@
 module Models
   module Transfers
-    class IntraBank
+    class IntraBank < Base
       def commission
         0
       end
