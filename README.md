@@ -16,6 +16,8 @@ $ bundle install
 
 ## Testing
 
+Sequel triggers a [lot of warnings](https://github.com/jeremyevans/sequel/issues/1184) so we need to lower the warning level.
+
 ```
-$ rake
+$ RUBYOPT="-W1" rake
 ```
