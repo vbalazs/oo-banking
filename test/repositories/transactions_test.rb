@@ -83,5 +83,22 @@ module Repositories
 
       assert_equal 1, Models::Transaction.count
     end
+
+    def test_by_bank
+      bank2 = Models::Bank.create(name: "2nd bank")
+      bank3 = Models::Bank.create(name: "3rd bank")
+      account1 = @accounts_repo.create(name: "Account 1", bank: @bank)
+      account2 = @accounts_repo.create(name: "Account 2", bank: bank2)
+      account3 = @accounts_repo.create(name: "Account 3", bank: bank3)
+      t1 = Models::Transaction.create(from_account: account1, to_account: account2,
+        amount_in_cents: 1)
+      t2 = Models::Transaction.create(from_account: account1, to_account: account3,
+        amount_in_cents: 2)
+      t3 = Models::Transaction.create(from_account: account2, to_account: account3,
+        amount_in_cents: 3)
+
+      assert_equal [t1.id, t2.id], @repo.by_bank(@bank).select_map(Sequel[:transactions][:id])
+      assert_equal [t1.id, t3.id], @repo.by_bank(bank2).select_map(Sequel[:transactions][:id])
+    end
   end
 end

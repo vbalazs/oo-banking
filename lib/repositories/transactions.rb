@@ -4,6 +4,16 @@ module Repositories
       @accounts_repository = accounts_repository
     end
 
+    def by_bank(bank, limit = 10, offset = 0)
+      Models::Transaction.association_join(:from_account)
+                         .association_join(:to_account)
+                         .where(Sequel.or(
+                            Sequel[:from_account][:bank_id] => bank.id,
+                            Sequel[:to_account][:bank_id] => bank.id))
+                         .order(:created_at)
+                         .limit(limit, offset)
+    end
+
     def transfer(transaction:, commission: 0)
       return unless transaction.amount_in_cents.positive?
 
