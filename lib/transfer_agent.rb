@@ -43,7 +43,7 @@ class TransferAgent
     logger.info "Transfer is over limit, breaking it up: #{limit} * #{q} + #{m}"
 
     transactions = Array.new(q) { transaction(limit) }
-    transactions.push(transaction(m)) if m > 0
+    transactions.push(transaction(m)) if m.positive?
 
     transactions
   end

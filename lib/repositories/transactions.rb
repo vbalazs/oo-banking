@@ -5,7 +5,7 @@ module Repositories
     end
 
     def transfer(transaction:, commission: 0)
-      return if transaction.amount_in_cents <= 0
+      return unless transaction.amount_in_cents.positive?
 
       total_cost = transaction.amount_in_cents + commission
       check_for_balance!(transaction.from_account, total_cost)
@@ -18,7 +18,7 @@ module Repositories
     end
 
     def add(transaction)
-      raise NegativeTransferAmount if transaction.amount_in_cents < 0
+      raise NegativeTransferAmount unless transaction.amount_in_cents.positive?
 
       Models::Transaction.create(
         from_account: transaction.from_account,
