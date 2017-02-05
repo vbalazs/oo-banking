@@ -5,10 +5,6 @@ module Repositories
       Models::Account.create(args)
     end
 
-    def find(id)
-      Models::Account[id]
-    end
-
     def subtract_from(account, amount)
       Models::Account[account.id].update(balance_in_cents: Sequel[:balance_in_cents] - amount)
     end

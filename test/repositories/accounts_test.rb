@@ -16,19 +16,12 @@ module Repositories
       assert_equal 0, result.balance_in_cents
     end
 
-    def test_find
-      Models::Account.create(name: "other", bank: @bank)
-      result = Models::Account.create(name: "X", bank: @bank)
-
-      assert_equal result, @repo.find(result.id)
-    end
-
     def test_subtract_from
       account = Models::Account.create(name: "other", bank: @bank, balance_in_cents: 20)
 
       @repo.subtract_from(account, 3)
 
-      assert_equal 17, @repo.find(account.id).balance_in_cents
+      assert_equal 17, account.refresh.balance_in_cents
     end
 
     def test_add_to
@@ -36,7 +29,7 @@ module Repositories
 
       @repo.add_to(account, 3)
 
-      assert_equal 23, @repo.find(account.id).balance_in_cents
+      assert_equal 23, account.refresh.balance_in_cents
     end
   end
 end

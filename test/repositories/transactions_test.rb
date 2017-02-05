@@ -57,7 +57,7 @@ module Repositories
 
       @repo.transfer(transaction: transaction, commission: 2)
 
-      assert_equal 18, @accounts_repo.find(account_1.id).balance_in_cents
+      assert_equal 18, account_1.refresh.balance_in_cents
     end
 
     def test_transfer_adds_record
