@@ -1,10 +1,9 @@
 require "sequel"
 
+require "schema"
+require "seed"
+
 # connect to an in-memory database
-DB = Sequel.sqlite
-
-require_relative "schema"
+DB = Sequel.connect("sqlite://")
 Database::Schema.new(DB).execute
-
-require_relative "seed"
 Database::SeedData.new(DB).execute
